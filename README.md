@@ -46,7 +46,7 @@ Navigate to `http://MY_IP_ADDRESS` to confirm the setup.
 ## HPFEEDS
 =======
 EASY INSTALL USING DOCKER CONTAINER
-******************************************************
+-----------------------------------
 1. Install `Docker <https://www.docker.com/>`_
 2. Run ``docker pull honeynet/conpot``
 3. Run ``docker run -it -p 80:80 -p 102:102 -p 502:502 -p 161:161/udp --network=bridge honeynet/conpot:latest /bin/sh``
