@@ -49,6 +49,7 @@ EASY INSTALL USING DOCKER CONTAINER
 -----------------------------------
 
 **Via a pre-built image**
+
 1. Install `Docker <https://www.docker.com/>`_
 2. Run ``docker pull honeynet/conpot``
 3. Run ``docker run -it -p 80:80 -p 102:102 -p 502:502 -p 161:161/udp --network=bridge honeynet/conpot:latest /bin/sh``
@@ -57,6 +58,7 @@ EASY INSTALL USING DOCKER CONTAINER
 Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup. **Or, you may also** 
 
 **Build docker image from source**
+
 1. Install `Docker <https://www.docker.com/>`_
 2. Download the Dockerfile from conpot repo ``wget https://raw.githubusercontent.com/mushorg/conpot/master/Dockerfile``
 3. Run ``docker build -t conpot .``
@@ -64,7 +66,6 @@ Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup. **Or, you may also**
 5. Finally run ``conpot --template default``
 
 Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup. 
-`` 
 
 HPFEEDS
 -------
