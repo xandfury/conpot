@@ -22,7 +22,7 @@ The build of the documentations [source](https://github.com/mushorg/conpot/tree/
 1. Install [Docker](https://docs.docker.com/engine/installation/)
 2. Run `docker pull honeynet/conpot`
 3. Run `docker run -it -p 80:80 -p 102:102 -p 502:502 -p 161:161/udp --network=bridge honeynet/conpot:latest /bin/sh`
-4. Finally run `conpot --template default`
+4. Finally run `conpot --f --template default`
 
 Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup.
 
@@ -42,27 +42,6 @@ Navigate to `http://MY_IP_ADDRESS` to confirm the setup.
 3. Build the image with `docker-compose build`
 4. Test if everything is running correctly with `docker-compose up`
 5. Permanently run as a daemon with `docker-compose up -d`
-
-EASY INSTALL USING DOCKER CONTAINER
------------------------------------
-
-**Via a pre-built image**
-
-1. Install `Docker <https://www.docker.com/>`_
-2. Run ``docker pull honeynet/conpot``
-3. Run ``docker run -it -p 80:80 -p 102:102 -p 502:502 -p 161:161/udp --network=bridge honeynet/conpot:latest /bin/sh``
-4. Finally run ``conpot --template default``
-
-Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup. **Or, you may also** 
-
-**Build docker image from source**
-
-1. Install `Docker <https://www.docker.com/>`_
-2. Download the Dockerfile from conpot repo ``wget https://raw.githubusercontent.com/mushorg/conpot/master/Dockerfile``
-3. Run ``docker build -t conpot .``
-4. Run ``docker run -it -p 80:80 -p 102:102 -p 502:502 -p 161:161/udp --network=bridge conpot``
-
-Navigate to ``http://MY_IP_ADDRESS`` to confirm the setup. 
 
 HPFEEDS
 -------
