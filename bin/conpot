@@ -158,10 +158,9 @@ def main():
                         const=True,
                         default=False
     )
-
     parser.add_argument("-c", "--config",
                         help="The configuration file to use",
-                        metavar="conpot.cfg"
+                        metavar="conpot.cfg",
                         )
 
     parser.add_argument("-l", "--logfile",
@@ -190,19 +189,18 @@ def main():
     # Loading default config if config not set.
     if args.force:
         args.config = os.path.join(package_directory, 'testing.cfg')
-        logger.info('--force option specified. Using testing configuration: %s', args.config)
-
+        logger.info('--force option specified. Using testing configuration: %s')
+        config.read(args.config)
     else:
         try:
-            if not os.path.isfile(args.config):
+            if not os.path.isfile(os.path.join(package_directory, args.config)):
                 raise
-            else:
-                args.config = os.path.join(package_directory, args.config)
-                logger.info('config file found!')
-                config.read(args.config)
+            args.config = os.path.join(package_directory, args.config)
+            logger.info('config file found!')
+            config.read(args.config)
         except:
             logger.info('\nCould not find config file!\nUse -f option to try the test configuration')
-            sys.exit(0)
+            sys.exit(1)
 
     # No template specified
     if not args.template:
