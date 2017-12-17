@@ -32,7 +32,7 @@ class SNMPClient(object):
         )
         config.addTargetAddr(
             self.snmpEngine, 'my-router',
-            udp.domainName, (host, port),
+            udp.domainName, ((host, port)),
             'my-creds'
         )
 
