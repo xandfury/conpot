@@ -1,0 +1,19 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="telnet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="device_info">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="banner"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="enabled" use="required"/>
+            <xs:attribute type="xs:string" name="host" use="required"/>
+            <xs:attribute type="xs:unsignedShort" name="port" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

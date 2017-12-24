@@ -1,0 +1,15 @@
+<telnet enabled="True" host="0.0.0.0" port="23">
+    <device_info>
+      <banner>                       _
+   ___ ___ ___ ___ ___| |_
+  |  _| . |   | . | . |  _|
+  |___|___|_|_|  _|___|_|
+              |_|
+
+  Version {0}
+  MushMush Foundation
+
+  Authorized Personal Only!
+      </banner>
+    </device_info>
+</telnet>
