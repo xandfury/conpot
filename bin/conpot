@@ -190,7 +190,7 @@ def main():
     # Loading default config if config not set.
     if args.force:
         args.config = os.path.join(package_directory, 'testing.cfg')
-        logger.info('--force option specified. Using testing configuration: %s')
+        logger.info('--force option specified. Using testing configuration')
         config.read(args.config)
     else:
         try:

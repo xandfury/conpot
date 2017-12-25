@@ -49,3 +49,12 @@ docs/source/conpot_version.py
 .log
 
 log/
+
+# Emacs backup files ignore
+*~
+\#*\#
+*.elc
+auto-save-list
+tramp
+\#*\#
+.\#*

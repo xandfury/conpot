@@ -1,26 +1,19 @@
-'''
-Target: To create a simple telnet server
-using python that does menu driven programs
-'''
-
-import gevent, gevent.queue
+# To run a green server, import gevent and the green version of telnetsrv.
+import gevent, gevent.queue, gevent.server
 import socket
 from telnetsrv.telnetsrvlib import TelnetHandlerBase, command
-import logging
+import logging as logger
 import sys
 import time
-import socket
 
 from lxml import etree
 import conpot.core as conpot_core
 
-# To run a green server, import gevent and the green version of telnetsrv.
-import gevent, gevent.server
 # Supress errors when the client disconnects
 import gevent.hub
-# gevent.hub.Hub.NOT_ERROR=(Exception,)
+gevent.hub.Hub.NOT_ERROR=(Exception,)
 
-logging.getLogger('').setLevel(logging.DEBUG)
+logger.getLogger('').setLevel(logger.DEBUG)
 
 class ConnectionCount(object):
     '''A simple server class that just keeps track of a connection count.'''
@@ -48,7 +41,7 @@ class TelnetHandler(TelnetHandlerBase):
     TELNET_BANNER = ''
     template_directory = ''
 
-    def __init__(self, request, client_address, server):
+    def __init__(self, request, client_address, server=None):
         # Create a green queue for input handling
         self.cookedq = gevent.queue.Queue()
         self.client_address = client_address
@@ -58,8 +51,8 @@ class TelnetHandler(TelnetHandlerBase):
         self.authNeedPass = True
         self.username = None
         self.password = None
-        self.TELNET_BANNER = TELNET_BANNER
-
+        # self.TELNET_BANNER = TELNET_BANNER
+        self.timeout = 5
         # Call the base class init method
         TelnetHandlerBase.__init__(self, request, client_address, server)
 
@@ -72,24 +65,20 @@ class TelnetHandler(TelnetHandlerBase):
         # Sleep for 0.5 second to allow options negotiation
         gevent.sleep(0.5)
 
-    def handle(self, sock, address):
-        '''The actual service to which the user has connected.
-        We might want to write a customized handler in future'''
-
-        sock.settimeout(self.timeout)
-        session = conpot_core.get_session('telnet', address[0], address[1])
-        self.start_time = time.time()
-        logger.info(
-            'New Telnet connection from %s:%s. (%s)',
-            address[0], address[1], session.id)
-        session.add_event({'type': 'NEW_CONNECTION'})
-
-
+    def handle(self):
+        '''The actual service to which the user has connected.'''
+        # This should overwrite TelnetHandlerBase.handler() because
+        # we might want to write a more customized handler in future
+        # This is nothing to do with the actual SocketStream handler.
+        # It is just how we want to process/handle the commands entered
+        # by the telnet user.
         if self.TELNET_BANNER:
             self.writeline(self.TELNET_BANNER)
-        # authentication_ok() is a boolean on how auth is success or failure
+        # authentication_ok() is a boolean in TelnetHandlerBase
+        # on whether auth is success or failure
         if not TelnetHandlerBase.authentication_ok(self):
             return
+        # start to init the socket
         self.session_start()
         while self.RUNSHELL:
             raw_input = self.readline(prompt=self.PROMPT).strip()
@@ -104,31 +93,27 @@ class TelnetHandler(TelnetHandlerBase):
                     except:
                         log.exception('Error calling %s.' % cmd)
                         (t, p, tb) = sys.exc_info()
-                        if TelnetHan.handleException(t, p, tb):
+                        if TelnetHandlerBase.handleException(t, p, tb):
                             break
                 else:
                     self.writeerror("Unknown command '%s'" % cmd)
-        logging.debug("Exiting handler")
+        logger.debug("Exiting handler")
 
     def finish(self):
         '''End this session'''
         try:
             self.sock.shutdown(socket.SHUT_RDWR)
-            logging.info('Terminating client session from %s' %(self.client_address,))
+            logger.info('Terminating client session from %s' %(self.client_address,))
             # Ensure the greenlet is dead
             self.greenlet_ic.kill()
-            logger.info('Telnet client terminated connection.'
-                        ' (%s)', session.id)
-            session.add_event({'type': 'CONNECTION_TERMINATED'})
-
         except Exception as e:
-            logging.exception("{}: {}".format(type(e).__name__, e))
+            logger.exception("{}: {}".format(type(e).__name__, e))
 
     def log(self):
         globalcount, usercount = TelnetHandler.myserver.new_connection( self.username )
         self.writeline('Incorrect username/password. Please try again.')
-        logging.info('Incoming telnet connection from %s' % (self.client_address,))
-        logging.info('User %s with password %s has attempted to have log in %s time(s). Total telnet login attempts #%d' % (self.username, self.password, usercount, globalcount))
+        logger.info('Incoming telnet connection from %s' % (self.client_address,))
+        logger.info('User %s with password %s has attempted to have log in %s time(s). Total telnet login attempts #%d' % (self.username, self.password, usercount, globalcount))
 
     def authCallback(self, username, password):
         '''Called to validate the username/password.'''
@@ -162,8 +147,12 @@ class TelnetHandler(TelnetHandlerBase):
 
 
 class SubTelnetHandler(TelnetHandler):
-    '''This class is used to create customized dialog flows/commands
+    '''Class is used to create customized dialog flows/commands
     for the telnet defined server'''
+    # This class is like a Processor class that defines
+    # all the commands that would be present in the conpot's
+    # telnet server.
+
     # Method invoked after authentication is successful
     def session_start(self):
         '''Called after the user successfully logs in.'''
@@ -192,3 +181,21 @@ class SubTelnetHandler(TelnetHandler):
         Add a splash of color using ANSI to render the error text in red.
         see http://en.wikipedia.org/wiki/ANSI_escape_code'''
         TelnetServer.writeerror(self, "\x1b[91m%s\x1b[0m" % text )
+
+    # @classmethod
+    # def streamserver_handle(self, sock, address):
+    #     '''Translate this class for use in a StreamServer'''
+    #     sock.settimeout(self.timeout)
+    #     session = conpot_core.get_session('telnet', address[0], address[1])
+
+    #     logger.info(
+    #         'New Telnet connection from %s:%s. (%s)',
+    #         address[0], address[1], self.session.id)
+    #     self.session.add_event({'type': 'NEW_CONNECTION'})
+    #     self.start_time = time.time()
+
+    #     super().streamserver_handle(sock, address)
+
+    #     logger.info('Telnet client terminated connection.'
+    #                 ' (%s)', self.session.id)
+    #     self.session.add_event({'type': 'CONNECTION_TERMINATED'})
