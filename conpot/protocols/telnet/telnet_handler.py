@@ -181,21 +181,3 @@ class SubTelnetHandler(TelnetHandler):
         Add a splash of color using ANSI to render the error text in red.
         see http://en.wikipedia.org/wiki/ANSI_escape_code'''
         TelnetServer.writeerror(self, "\x1b[91m%s\x1b[0m" % text )
-
-    # @classmethod
-    # def streamserver_handle(self, sock, address):
-    #     '''Translate this class for use in a StreamServer'''
-    #     sock.settimeout(self.timeout)
-    #     session = conpot_core.get_session('telnet', address[0], address[1])
-
-    #     logger.info(
-    #         'New Telnet connection from %s:%s. (%s)',
-    #         address[0], address[1], self.session.id)
-    #     self.session.add_event({'type': 'NEW_CONNECTION'})
-    #     self.start_time = time.time()
-
-    #     super().streamserver_handle(sock, address)
-
-    #     logger.info('Telnet client terminated connection.'
-    #                 ' (%s)', self.session.id)
-    #     self.session.add_event({'type': 'CONNECTION_TERMINATED'})
