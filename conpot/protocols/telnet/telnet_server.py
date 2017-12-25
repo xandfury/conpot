@@ -17,7 +17,7 @@ class TelnetServer(object):
         self.template_directory = template_directory
 
         # for debugging. Delete this after done debug
-        self.template = (self.template_directory + self.template)
+        # self.template = (self.template_directory + self.template)
 
         self.Handler = SubTelnetHandler
         # Retrieve banner from template
@@ -51,13 +51,13 @@ class TelnetServer(object):
 
 
 # ---- For debugging ----
-if __name__ == '__main__':
-    protocol_name = 'telnet'
-    root_template_directory = '/usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/templates/default/'
-    template_base = os.path.join(root_template_directory, protocol_name)
-    template_base = template_base + '/'
-    telnet = TelnetServer('telnet.xml', template_base, None)
-    try:
-        telnet.start('0.0.0.0', 9999)
-    except KeyboardInterrupt:
-        telnet.stop()
+# if __name__ == '__main__':
+#     protocol_name = 'telnet'
+#     root_template_directory = '/usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/templates/default/'
+#     template_base = os.path.join(root_template_directory, protocol_name)
+#     template_base = template_base + '/'
+#     telnet = TelnetServer('telnet.xml', template_base, None)
+#     try:
+#         telnet.start('0.0.0.0', 9999)
+#     except KeyboardInterrupt:
+#         telnet.stop()

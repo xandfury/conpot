@@ -4378,3 +4378,49 @@ error: [Errno 107] Transport endpoint is not connected
 2017-12-25 20:09:56,573 Privileges dropped, running as "nobody:nogroup"
 2017-12-25 22:11:04,669 Stopping Conpot
 2017-12-25 22:11:04,669 HTTP server will shut down gracefully as soon as all connections are closed.
+2017-12-25 22:15:43,901 --force option specified. Using testing configuration
+2017-12-25 22:15:43,902 Starting Conpot using template: /usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/templates/default
+2017-12-25 22:15:43,903 Starting Conpot using configuration found in: /usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/testing.cfg
+2017-12-25 22:15:44,216 Fetched 59.178.63.153 as external ip.
+2017-12-25 22:15:44,221 Conpot modbus initialized
+2017-12-25 22:15:44,223 Found and enabled ('modbus', <class 'conpot.protocols.modbus.modbus_server.ModbusServer'>) protocol.
+2017-12-25 22:15:44,228 Conpot S7Comm initialized
+2017-12-25 22:15:44,231 Found and enabled ('s7comm', <class 'conpot.protocols.s7comm.s7_server.S7Server'>) protocol.
+2017-12-25 22:15:44,234 Found and enabled ('http', <class 'conpot.protocols.http.web_server.HTTPServer'>) protocol.
+2017-12-25 22:15:44,241 Found and enabled ('snmp', <class 'conpot.protocols.snmp.snmp_server.SNMPServer'>) protocol.
+2017-12-25 22:15:44,251 Conpot Bacnet initialized using the /usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/templates/default/bacnet/bacnet.xml template.
+2017-12-25 22:15:44,252 Found and enabled ('bacnet', <class 'conpot.protocols.bacnet.bacnet_server.BacnetServer'>) protocol.
+2017-12-25 22:15:44,264 IPMI BMC initialized.
+2017-12-25 22:15:44,264 Conpot IPMI initialized using /usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/templates/default/ipmi/ipmi.xml template
+2017-12-25 22:15:44,265 Found and enabled ('ipmi', <class 'conpot.protocols.ipmi.ipmi_server.IpmiServer'>) protocol.
+2017-12-25 22:15:44,268 Class    22/0x0016, Instance   1, Attribute     1 <== [{'class': 22}, {'instance': 1}, {'attribute': 1}]
+2017-12-25 22:15:44,269 Class    22/0x0016, Instance   1, Attribute     2 <== [{'class': 22}, {'instance': 1}, {'attribute': 2}]
+2017-12-25 22:15:44,269 Class    22/0x0016, Instance   1, Attribute     1 <== [{'class': 22}, {'instance': 1}, {'attribute': 1}]
+2017-12-25 22:15:44,271 Class    22/0x0016, Instance   1, Attribute     3 <== [{'class': 22}, {'instance': 1}, {'attribute': 3}]
+2017-12-25 22:15:44,283 Class    22/0x0016, Instance   1, Attribute     2 <== [{'class': 22}, {'instance': 1}, {'attribute': 2}]
+2017-12-25 22:15:44,284 Class    22/0x0016, Instance   1, Attribute     1 <== [{'class': 22}, {'instance': 1}, {'attribute': 1}]
+2017-12-25 22:15:44,284 Found and enabled ('enip', <class 'conpot.protocols.enip.enip_server.EnipServer'>) protocol.
+2017-12-25 22:15:44,286 Found and enabled ('telnet', <class 'conpot.protocols.telnet.telnet_server.TelnetServer'>) protocol.
+2017-12-25 22:15:44,287 No proxy template found. Service will remain unconfigured/stopped.
+2017-12-25 22:15:44,287 Modbus server started on: ('0.0.0.0', 502)
+2017-12-25 22:15:44,296 S7Comm server started on: ('0.0.0.0', 102)
+2017-12-25 22:15:44,296 HTTP server started on: ('0.0.0.0', 80)
+2017-12-25 22:15:44,812 SNMP server started on: ('0.0.0.0', 161)
+2017-12-25 22:15:44,815 Bacnet server started on: ('0.0.0.0', 47808)
+2017-12-25 22:15:44,816 IPMI server started on: ('0.0.0.0', 623)
+2017-12-25 22:15:44,820 handle server PID [ 2137] running on ('0.0.0.0', 44818)
+2017-12-25 22:15:44,820 handle server PID [ 2137] responding to external done/disable signal in object 139924017431824
+2017-12-25 22:15:44,821 Telnet server started on: ('0.0.0.0', 23)
+2017-12-25 22:15:49,288 Privileges dropped, running as "nobody:nogroup"
+2017-12-25 22:15:59,838 Incoming telnet connection from ('127.0.0.1', 35664)
+2017-12-25 22:15:59,839 User abhinav with password asdasd has attempted to have log in 1 time(s). Total telnet login attempts #1
+2017-12-25 22:15:59,839 Terminating client session from ('127.0.0.1', 35664)
+2017-12-25 22:15:59,844 error: [Errno 107] Transport endpoint is not connected
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/Conpot-0.5.1-py2.7.egg/conpot/protocols/telnet/telnet_handler.py", line 105, in finish
+    self.sock.shutdown(socket.SHUT_RDWR)
+  File "/usr/local/lib/python2.7/dist-packages/gevent/_socket2.py", line 466, in shutdown
+    self._sock.shutdown(how)
+error: [Errno 107] Transport endpoint is not connected
+2017-12-25 22:16:08,355 Stopping Conpot
+2017-12-25 22:16:08,355 HTTP server will shut down gracefully as soon as all connections are closed.
