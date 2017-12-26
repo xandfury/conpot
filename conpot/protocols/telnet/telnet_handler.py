@@ -1,7 +1,8 @@
 # To run a green server, import gevent and the green version of telnetsrv.
 import gevent, gevent.queue, gevent.server
 import socket
-from telnetsrv.telnetsrvlib import TelnetHandlerBase, command
+# from telnetsrv.telnetsrvlib import TelnetHandlerBase, command
+from telnetsrv.green import TelnetHandler as TelnetHandlerBase, command
 import logging as logger
 import sys
 import time
@@ -40,10 +41,9 @@ class TelnetHandler(TelnetHandlerBase):
     myserver = ConnectionCount()
     TELNET_BANNER = ''
     template_directory = ''
-
+    timeout = 5
     def __init__(self, request, client_address, server=None):
         # Create a green queue for input handling
-        self.cookedq = gevent.queue.Queue()
         self.client_address = client_address
 
         # Whether we need the user to enter user/pass
@@ -51,34 +51,22 @@ class TelnetHandler(TelnetHandlerBase):
         self.authNeedPass = True
         self.username = None
         self.password = None
-        # self.TELNET_BANNER = TELNET_BANNER
-        self.timeout = 5
+
         # Call the base class init method
         TelnetHandlerBase.__init__(self, request, client_address, server)
 
-    def setup(self):
-        '''Called after instantiation'''
-        TelnetHandlerBase.setup(self)
-        # Spawn a greenlet to handle socket input
-        # Note that inputcooker exits on EOF
-        self.greenlet_ic = gevent.spawn(self.inputcooker)
-        # Sleep for 0.5 second to allow options negotiation
-        gevent.sleep(0.5)
-
     def handle(self):
         '''The actual service to which the user has connected.'''
-        # This should overwrite TelnetHandlerBase.handler() because
-        # we might want to write a more customized handler in future
-        # This is nothing to do with the actual SocketStream handler.
+        # This has nothing to do with the actual SocketStream handler.
         # It is just how we want to process/handle the commands entered
-        # by the telnet user.
+        # by the client.
         if self.TELNET_BANNER:
             self.writeline(self.TELNET_BANNER)
         # authentication_ok() is a boolean in TelnetHandlerBase
         # on whether auth is success or failure
         if not TelnetHandlerBase.authentication_ok(self):
             return
-        # start to init the socket
+        # start the session
         self.session_start()
         while self.RUNSHELL:
             raw_input = self.readline(prompt=self.PROMPT).strip()
@@ -101,11 +89,18 @@ class TelnetHandler(TelnetHandlerBase):
 
     def finish(self):
         '''End this session'''
+        # Terminates the session as the client/server disconnects
         try:
             self.sock.shutdown(socket.SHUT_RDWR)
             logger.info('Terminating client session from %s' %(self.client_address,))
             # Ensure the greenlet is dead
             self.greenlet_ic.kill()
+        except socket.error as e:
+            import errno
+            if e.errno == errno.EINVAL:
+                pass
+            self.sock.close()
+            self.session_end()
         except Exception as e:
             logger.exception("{}: {}".format(type(e).__name__, e))
 
@@ -124,26 +119,31 @@ class TelnetHandler(TelnetHandlerBase):
         # Terminate the connection for now
         self.finish()
 
-    # -- Green input handling functions --
-    # -- from https://github.com/ianepperson/telnetsrvlib/blob/fac52a4a333c2d373d53d295a76a0bbd71e5d682/telnetsrv/green.py --
-    def getc(self, block=True):
-        '''Return one character from the input queue'''
+    @classmethod
+    def streamserver_handle(cls, sock, address):
+        '''Translate this class for use in a StreamServer'''
+        sock.settimeout(cls.timeout)
+        session = conpot_core.get_session('telnet', address[0], address[1])
+
+        cls.start_time = time.time()
+        logger.info('New Telnet connection from {0}:{1}. ({2})'.format(address[0], address[1], session.id))
+        session.add_event({'type': 'NEW_CONNECTION'})
+
+        request = cls.false_request()
+        request._sock = sock
+        server = None
+        logger.debug("Accepted connection, starting telnet session.")
         try:
-            return self.cookedq.get(block)
-        except gevent.queue.Empty:
-            return ''
+            cls(request, address, server)
+        except socket.timeout:
+            session.add_event({'type': 'CONNECTION_LOST'})
+            logger.debug('Socket timeout, remote: {0}. ({1})'.format(address[0], session.id))
+        except socket.error:
+            session.add_event({'type': 'CONNECTION_LOST'})
+            logger.debug('Connection reset by peer, remote: {0}. ({1})'.format(address[0], session.id))
+        except Exception as e:
+            logger.info('Exception caught {0}, remote: {1}. ({2})'.format(e, address[0], session.id))
 
-    def inputcooker_socket_ready(self):
-        '''Indicate that the socket is ready to be read'''
-        return gevent.select.select([self.sock.fileno()], [], [], 0) != ([], [], [])
-
-    def inputcooker_store_queue(self, char):
-        '''Put the cooked data in the input queue (no locking needed)'''
-        if type(char) in [type(()), type([]), type("")]:
-            for v in char:
-                self.cookedq.put(v)
-        else:
-            self.cookedq.put(char)
 
 
 class SubTelnetHandler(TelnetHandler):

@@ -36,7 +36,6 @@ class TelnetServer(object):
             sys.exit(3)
         return TELNET_BANNER
 
-
     def start(self, host, port):
         connection = (host, port)
         # TODO: write a custom handler
