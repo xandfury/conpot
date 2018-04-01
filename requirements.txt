@@ -4,7 +4,7 @@ pysmi
 lxml
 bottle
 jinja2
-beautifulsoup4
+beautifulsoup4==4.6.0
 requests
 sphinx
 libtaxii>=1.1.0
