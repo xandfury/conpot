@@ -17,7 +17,7 @@ enum34
 hpfeeds
 modbus-tk
 stix-validator
-stix
+stix==1.2.0.5
 cybox
 bacpypes==0.16.1
 pyghmi
