@@ -23,4 +23,4 @@ bacpypes==0.16.1
 pyghmi
 mixbox
 modbus-tk
-cpppo
+cpppo==3.9.7
