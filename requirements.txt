@@ -12,7 +12,7 @@ MySQL-python
 xlrd
 crc16
 natsort
-scapy
+scapy==2.4.0
 enum34
 hpfeeds
 modbus-tk
