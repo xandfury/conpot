@@ -14,7 +14,7 @@ crc16
 natsort
 scapy
 enum34
-hpfeeds
+hpfeeds==1.0
 modbus-tk
 stix-validator
 stix
