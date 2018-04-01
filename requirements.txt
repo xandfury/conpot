@@ -10,7 +10,7 @@ sphinx
 libtaxii>=1.1.0
 MySQL-python
 xlrd
-crc16
+crc16==0.1.1
 natsort
 scapy
 enum34
