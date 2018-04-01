@@ -3,7 +3,7 @@ pysnmp
 pysmi
 lxml
 bottle
-jinja2
+jinja2==2.10
 beautifulsoup4
 requests
 sphinx
