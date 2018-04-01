@@ -21,6 +21,6 @@ stix
 cybox
 bacpypes==0.16.1
 pyghmi
-mixbox
+mixbox==1.0.3
 modbus-tk
 cpppo
