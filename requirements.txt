@@ -2,7 +2,7 @@ gevent>=1.0
 pysnmp
 pysmi
 lxml
-bottle
+bottle==0.12.13
 jinja2
 beautifulsoup4
 requests
