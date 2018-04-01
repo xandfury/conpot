@@ -1,5 +1,5 @@
 gevent>=1.0
-pysnmp
+pysnmp==4.4.4
 pysmi
 lxml
 bottle
