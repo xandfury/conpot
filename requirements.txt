@@ -13,7 +13,7 @@ xlrd
 crc16
 natsort
 scapy
-enum34
+enum34==1.1.6
 hpfeeds
 modbus-tk
 stix-validator
