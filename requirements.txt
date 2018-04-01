@@ -6,7 +6,7 @@ bottle
 jinja2
 beautifulsoup4
 requests
-sphinx
+sphinx==1.7.2
 libtaxii>=1.1.0
 MySQL-python
 xlrd
