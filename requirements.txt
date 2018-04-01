@@ -16,7 +16,7 @@ scapy
 enum34
 hpfeeds
 modbus-tk
-stix-validator
+stix-validator==2.5.0
 stix
 cybox
 bacpypes==0.16.1
