@@ -8,7 +8,7 @@ beautifulsoup4
 requests
 sphinx
 libtaxii>=1.1.0
-MySQL-python
+MySQL-python==1.2.5
 xlrd
 crc16
 natsort
