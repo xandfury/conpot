@@ -18,7 +18,7 @@ hpfeeds
 modbus-tk
 stix-validator
 stix
-cybox
+cybox==2.1.0.17
 bacpypes==0.16.1
 pyghmi
 mixbox
