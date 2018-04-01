@@ -9,7 +9,7 @@ requests
 sphinx
 libtaxii>=1.1.0
 MySQL-python
-xlrd
+xlrd==1.1.0
 crc16
 natsort
 scapy
