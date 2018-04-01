@@ -1,7 +1,7 @@
 gevent>=1.0
 pysnmp
 pysmi
-lxml
+lxml==4.2.1
 bottle
 jinja2
 beautifulsoup4
