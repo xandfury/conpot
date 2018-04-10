@@ -20,7 +20,7 @@ stix-validator
 stix
 cybox
 bacpypes==0.16.1
-pyghmi
+pyghmi==1.0.44
 mixbox
 modbus-tk
 cpppo
