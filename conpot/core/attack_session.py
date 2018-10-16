@@ -45,11 +45,7 @@ class AttackSession(object):
         data = {
             "id": self.id,
             "remote": (self.source_ip, self.source_port),
-            "src_ip": self.source_ip,
-            "src_port": self.source_port,
             "local": (self.destination_ip, self.destination_port),
-            "dst_ip": self.destination_ip,
-            "dst_port": self.destination_port,
             "data_type": self.protocol,
             "timestamp": self.timestamp,
             "public_ip": self.public_ip,
@@ -70,11 +66,7 @@ class AttackSession(object):
         data = {
             "id": self.id,
             "remote": (self.source_ip, self.source_port),
-            "src_ip": self.source_ip,
-            "src_port": self.source_port,
             "local": (self.destination_ip, self.destination_port),
-            "dst_ip": self.destination_ip,
-            "dst_port": self.destination_port,
             "data_type": self.protocol,
             "timestamp": self.timestamp,
             "public_ip": self.public_ip,
