@@ -35,3 +35,5 @@ pytest
 tox
 pycrypto
 sphinx_rtd_theme
+filelock>=3.20.3 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3>=2.6.3 # not directly required, pinned by Snyk to avoid a vulnerability
